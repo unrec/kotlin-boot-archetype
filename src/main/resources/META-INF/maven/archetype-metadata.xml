@@ -1,0 +1,69 @@
+<archetype-descriptor
+  xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 https://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd"
+  name="kotlin-boot-archetype">
+
+  <requiredProperties>
+    <requiredProperty key="subPackage">
+      <defaultValue>${artifactId.replaceFirst("^[^-]*-", "").replaceAll("-","")}
+      </defaultValue>
+    </requiredProperty>
+    <requiredProperty key="basePackage">
+      <defaultValue>${package}.${subPackage}
+      </defaultValue>
+    </requiredProperty>
+    <requiredProperty key="gitignore">
+      <defaultValue>.gitignore</defaultValue>
+    </requiredProperty>
+  </requiredProperties>
+
+  <fileSets>
+    <fileSet filtered="true" packaged="true" encoding="UTF-8">
+      <directory>src/main/java</directory>
+      <includes>
+        <include>Application.java</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" packaged="true" encoding="UTF-8">
+      <directory>src/main/kotlin</directory>
+      <includes>
+        <include>Application.kt</include>
+      </includes>
+    </fileSet>
+
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory></directory>
+      <includes>
+        <include>__gitignore__</include>
+        <include>.gitlab-ci.yml</include>
+        <include>lombok.config</include>
+        <include>README.md</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>.m2</directory>
+      <includes>
+        <include>settings.xml</include>
+      </includes>
+    </fileSet>
+
+    <fileSet packaged="true" encoding="UTF-8">
+      <directory>src/test/java</directory>
+    </fileSet>
+    <fileSet packaged="true" encoding="UTF-8">
+      <directory>src/test/kotlin</directory>
+    </fileSet>
+
+    <fileSet filtered="true">
+      <directory>src/main/resources</directory>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/resources/liquibase</directory>
+    </fileSet>
+    <fileSet filtered="true">
+      <directory>src/test/resources</directory>
+    </fileSet>
+
+  </fileSets>
+</archetype-descriptor>

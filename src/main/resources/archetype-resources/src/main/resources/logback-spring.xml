@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<configuration>
+  <springProperty name="log.dir" source="logging.dir"/>
+  <springProperty name="name" source="${subPackage}"/>
+  <springProperty name="log.maxHistory" source="log.maxHistory"/>
+  <property name="PATTERN" value="%d %-5p %c{0} [%t] [%mdc{requestId}] - %m%n"/>
+  <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+
+  <appender name='CONSOLE_AUDIT' class='ch.qos.logback.core.ConsoleAppender'>
+    <filter class='ch.qos.logback.classic.filter.ThresholdFilter'>
+      <level>TRACE</level>
+    </filter>
+    <encoder>
+      <pattern>${PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE_AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <append>false</append>
+    <file>${log.dir}/${name}.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log.dir}/${name}.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
+      <maxHistory>${log.maxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ERR_AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${log.dir}/${name}_error.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log.dir}/${name}_error.%d{yyyy-MM-dd-HH}.log.gz</fileNamePattern>
+      <maxHistory>${log.maxHistory}</maxHistory>
+    </rollingPolicy>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ERROR</level>
+    </filter>
+    <encoder>
+      <pattern>${PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <logger name='com.unrec.${name}' additivity='false'>
+    <level value='DEBUG'/>
+    <appender-ref ref='ERR_AUDIT'/>
+    <appender-ref ref='FILE_AUDIT'/>
+    <appender-ref ref='CONSOLE_AUDIT'/>
+  </logger>
+
+  <logger name='org.springframework.ws.client.MessageTracing' additivity='false'>
+    <level value='TRACE'/>
+    <appender-ref ref='FILE_AUDIT'/>
+    <appender-ref ref='CONSOLE_AUDIT'/>
+  </logger>
+
+  <logger name='org.springframework' additivity='false'>
+    <level value='INFO'/>
+    <appender-ref ref='FILE_AUDIT'/>
+    <appender-ref ref='CONSOLE_AUDIT'/>
+  </logger>
+
+  <logger name='org.springframework.transaction.interceptor' additivity='false'>
+    <level value='TRACE'/>
+    <appender-ref ref='CONSOLE_AUDIT'/>
+  </logger>
+
+  <root>
+    <level value='INFO'/>
+    <appender-ref ref='ERR_AUDIT'/>
+    <appender-ref ref='FILE_AUDIT'/>
+    <appender-ref ref='CONSOLE_AUDIT'/>
+  </root>
+</configuration>

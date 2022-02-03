@@ -1,0 +1,6 @@
+variables:
+
+include:
+  - project: ''
+    ref: master
+    file: ''

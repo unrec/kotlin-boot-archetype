@@ -1,0 +1,13 @@
+server.port: 8080
+
+spring:
+  application:
+    name: ${artifactId}
+
+logging.level:
+  ROOT: INFO
+  org.springframework: DEBUG
+  org.springframework.boot.autoconfigure.logging: INFO
+  ${basePackage}: DEBUG
+  org.hibernate.SQL: DEBUG
+  org.hibernate.type: TRACE
