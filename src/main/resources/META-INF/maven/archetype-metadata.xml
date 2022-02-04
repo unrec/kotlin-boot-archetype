@@ -6,12 +6,10 @@
 
   <requiredProperties>
     <requiredProperty key="subPackage">
-      <defaultValue>${artifactId.replaceFirst("^[^-]*-", "").replaceAll("-","")}
-      </defaultValue>
+      <defaultValue>${artifactId.replaceFirst("^[^-]*-", "").replaceAll("-","")}</defaultValue>
     </requiredProperty>
-    <requiredProperty key="basePackage">
-      <defaultValue>${package}.${subPackage}
-      </defaultValue>
+    <requiredProperty key="package">
+      <defaultValue>${groupId}.${subPackage}</defaultValue>
     </requiredProperty>
     <requiredProperty key="gitignore">
       <defaultValue>.gitignore</defaultValue>
